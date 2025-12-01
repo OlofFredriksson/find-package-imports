@@ -1,0 +1,25 @@
+import fs from "node:fs/promises";
+import { analyzeMetafile, build } from "esbuild";
+
+const extension = {
+    esm: ".mjs",
+};
+
+await fs.rm("dist", { recursive: true, force: true });
+
+for (const format of ["esm"]) {
+    const result = await build({
+        entryPoints: ["src/index.js"],
+        outdir: `dist/${format}`,
+        bundle: true,
+        format,
+        platform: "node",
+        target: "node22",
+        logLevel: "info",
+        metafile: true,
+        outExtension: {
+            ".js": extension[format],
+        },
+    });
+    console.log(await analyzeMetafile(result.metafile));
+}
