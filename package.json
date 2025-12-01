@@ -1,0 +1,59 @@
+{
+  "name": "find-package-imports",
+  "version": "0.0.1",
+  "description": "A utility to find package imports in javascript / Typescript files.",
+  "keywords": [
+    "find",
+    "package"
+  ],
+  "homepage": "https://github.com/OlofFredriksson/find-package-imports#readme",
+  "bugs": {
+    "url": "https://github.com/OlofFredriksson/find-package-imports/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OlofFredriksson/find-package-imports.git"
+  },
+  "license": "MIT",
+  "author": "Olof",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint . --fix",
+    "lint": "run-s eslint prettier:check",
+    "lint:fix": "run-s eslint:fix prettier:write",
+    "prettier:check": "prettier . --check",
+    "prettier:write": "prettier . --write",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "postversion": "git push --follow-tags"
+  },
+  "commitlint": {
+    "extends": "@forsakringskassan/commitlint-config/no-jira"
+  },
+  "prettier": "@forsakringskassan/prettier-config",
+  "devDependencies": {
+    "@forsakringskassan/commitlint-config": "3.2.1",
+    "@forsakringskassan/eslint-config": "13.2.2",
+    "@forsakringskassan/eslint-config-cli": "13.2.0",
+    "@forsakringskassan/eslint-config-jest": "13.2.3",
+    "@forsakringskassan/prettier-config": "3.2.0",
+    "esbuild": "0.27.0",
+    "jest": "30.2.0",
+    "npm-pkg-lint": "4.2.0",
+    "npm-run-all2": "8.0.4",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">= 22.0.0",
+    "npm": ">= 11.0.0"
+  }
+}

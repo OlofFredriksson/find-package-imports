@@ -1,0 +1,57 @@
+name: Build
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                node-version: [22.x, 24.x]
+
+        steps:
+            - uses: actions/checkout@v5
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm install
+            - run: npm run build
+            - run: npx sort-package-json -c
+            - run: npm run lint
+            - run: npm test
+              env:
+                  CI: true
+
+    test:
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                node-version: [22.x, 24.x]
+
+        steps:
+            - uses: actions/checkout@v5
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v6
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - run: npm install
+            - run: npm run build
+            - run: npm test
+              env:
+                  CI: true
+
+    npm-pkg-lint:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v5
+            - name: Setup Node.js
+              uses: actions/setup-node@v6
+            - run: npm install
+            - name: npm-pkg-lint
+              uses: ext/npm-pkg-lint@master

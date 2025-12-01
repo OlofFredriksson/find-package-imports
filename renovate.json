@@ -1,0 +1,9 @@
+{
+    "extends": ["local>forsakringskassan/renovate-config"],
+    "packageRules": [
+        {
+            "matchFiles": ["fixtures/**"],
+            "enabled": false
+        }
+    ]
+}
