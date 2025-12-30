@@ -61,13 +61,14 @@ export function findPackageImports(fileContent, userOptions = {}) {
 
 const findPackageImportsFromFileOptions = {
     subExports: true,
+    fileRegexp: "/**/*.{cjs,js,mjs,ts,svelte,vue}",
 };
 export function findPackageImportsFromFile(dirPath, userOptions = {}) {
     const options = {
         ...findPackageImportsFromFileOptions,
         ...userOptions,
     };
-    const files = fs.globSync(`${dirPath}/**/*.{cjs,js,mjs,ts,svelte,vue}`, {
+    const files = fs.globSync(`${dirPath}${options.fileRegexp}`, {
         ignore: "**/node_modules/**",
     });
     const pkgSet = new Set();

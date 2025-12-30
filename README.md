@@ -42,6 +42,13 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 - `dirPath` (string): The absolute or relative path to the directory to scan.
 - `options` (object, optional): An object with the following properties:
     - `subExports` (boolean): Whether to include sub-paths in the result (e.g., `'react/jsx-runtime'`). Defaults to `true`.
+    - `fileRegexp` (string, optional): A glob pattern (appended to `dirPath`) that selects which files to scan. Defaults to `"/**/*.{cjs,js,mjs,ts,svelte,vue}"` (recursive search).
+
+        Examples:
+        - `"/**/*.mjs"` — scan only `.mjs` files recursively
+        - `"/*.js"` — scan only files in the specified directory (non-recursive)
+
+        The pattern uses standard glob syntax (wildcards, brace expansion, etc.) and is used verbatim when constructing the search path.
 
 #### Returns
 

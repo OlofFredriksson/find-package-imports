@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-large-snapshots -- snapshot */
 /* eslint-env jest */
 /* eslint-disable import/extensions -- Node ESM local imports include .js file extensions */
 import path from "path";
@@ -90,7 +91,6 @@ describe("findPackageImportsFromFile", () => {
         const fixturesPath = path.join(__dirname, "..", "fixtures/src");
         const result = findPackageImportsFromFile(fixturesPath);
 
-        // eslint-disable-next-line jest/no-large-snapshots -- snapshot
         expect(result).toMatchInlineSnapshot(`
             [
               {
@@ -115,5 +115,36 @@ describe("findPackageImportsFromFile", () => {
               },
             ]
         `);
+    });
+
+    it("respects custom fileRegexp (single file)", () => {
+        const fixturesPath = path.join(__dirname, "..", "fixtures/src");
+        const result = findPackageImportsFromFile(fixturesPath, {
+            fileRegexp: "/index.mjs",
+        });
+
+        // Only index.mjs should be scanned (package-a and package-b)
+        expect(result).toMatchInlineSnapshot(`
+            [
+              {
+                "package": "package-a",
+                "packagePath": "fixtures/node_modules/package-a",
+                "resolvesTo": "fixtures/node_modules/package-a/src/index.js",
+              },
+              {
+                "package": "package-b",
+                "packagePath": "fixtures/node_modules/package-b",
+                "resolvesTo": "fixtures/node_modules/package-b/index.js",
+              },
+            ]
+        `);
+    });
+
+    it("returns empty when custom fileRegexp doesn't match files", () => {
+        const fixturesPath = path.join(__dirname, "..", "fixtures/src");
+        const result = findPackageImportsFromFile(fixturesPath, {
+            fileRegexp: "/**/*.js",
+        });
+        expect(result).toEqual([]);
     });
 });
