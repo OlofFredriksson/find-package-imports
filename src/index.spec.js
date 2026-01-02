@@ -84,6 +84,27 @@ describe("findPackageImports", () => {
             "lazy-vue",
         ]);
     });
+
+    it("svelte: handles Svelte component <script> imports", () => {
+        const src = `
+            <script>
+                import { onMount } from "svelte";
+                import Comp from "svelte-comp";
+                import './local.svelte';
+                const lazy = import("lazy-svelte");
+            </script>
+            <style></style>
+            <main>
+                <Comp />
+            </main>
+        `;
+
+        expect(findPackageImports(src)).toEqual([
+            "svelte",
+            "svelte-comp",
+            "lazy-svelte",
+        ]);
+    });
 });
 
 describe("findPackageImportsFromFile", () => {
