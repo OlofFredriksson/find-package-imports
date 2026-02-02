@@ -84,3 +84,44 @@ console.log(imports);
 //   }
 // ]
 ```
+
+### `getUniquePackages(imports)`
+
+Extracts a unique list of packages from the result of `findPackageImportsFromFile()`. This function deduplicates packages, so if multiple imports resolve to the same package (e.g., `'react'` and `'react/jsx-runtime'` both belong to `'react'`), only one entry is returned.
+
+#### Parameters
+
+- `imports` (Array<Object>): The result array from `findPackageImportsFromFile()`, containing package import results.
+
+#### Returns
+
+`Array<Object>`: An array of objects, where each object represents a unique package and has the following properties:
+
+- `package` (string): The name of the package (e.g., `'react'`).
+- `packagePath` (string | null): The path to the package directory (typically the directory containing `package.json`), relative to the current working directory. Will be `null` if the package could not be resolved.
+
+#### Example
+
+```javascript
+import {
+    findPackageImportsFromFile,
+    getUniquePackages,
+} from "find-package-imports";
+
+const projectDir = "/path/to/your/project/src";
+const imports = findPackageImportsFromFile(projectDir);
+const uniquePackages = getUniquePackages(imports);
+
+console.log(uniquePackages);
+// Expected output:
+// [
+//   {
+//     package: 'react',
+//     packagePath: 'node_modules/react'
+//   },
+//   {
+//     package: 'next',
+//     packagePath: 'node_modules/next'
+//   }
+// ]
+```

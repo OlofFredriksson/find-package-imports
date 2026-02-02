@@ -1,11 +1,12 @@
-/* eslint-disable sonarjs/slow-regex -- inactivate rule */
 import fs from "fs";
 import { dirname, join, relative, sep } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import { extractMatches } from "./extractMatches.js";
 
 const commentRegex = /(\/\*[\s\S]*?\*\/)|(\/\/.*)/g;
+
 const importRegex =
+    // eslint-disable-next-line sonarjs/slow-regex -- inactivate rule
     /(?:import\s+(?:.*?from\s+)?['"]|import\(['"])([^'"]+)['"]/g;
 
 const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
@@ -16,6 +17,11 @@ interface PackageImportResult {
     import: string;
     package: string;
     resolvesTo: string | null;
+    packagePath: string | null;
+}
+
+interface UniquePackage {
+    package: string;
     packagePath: string | null;
 }
 
@@ -121,4 +127,21 @@ export function findPackageImportsFromFile(
             };
         }
     });
+}
+
+export function getUniquePackages(
+    imports: PackageImportResult[],
+): UniquePackage[] {
+    const packageMap = new Map<string, string | null>();
+
+    for (const item of imports) {
+        if (!packageMap.has(item.package)) {
+            packageMap.set(item.package, item.packagePath);
+        }
+    }
+
+    return Array.from(packageMap).map(([packageName, packagePath]) => ({
+        package: packageName,
+        packagePath,
+    }));
 }
