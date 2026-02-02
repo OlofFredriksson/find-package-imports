@@ -1,0 +1,20 @@
+{
+    "extends": ["@tsconfig/recommended", "@tsconfig/node22"],
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "lib": ["ES2022"],
+        "noEmit": true,
+        "rootDir": "./src",
+        "strict": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "verbatimModuleSyntax": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+}

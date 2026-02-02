@@ -2,7 +2,7 @@
 import fs from "fs";
 import { dirname, join, relative, sep } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { extractMatches } from "./extractMatches";
+import { extractMatches } from "./extractMatches.js";
 
 const commentRegex = /(\/\*[\s\S]*?\*\/)|(\/\/.*)/g;
 const importRegex =
@@ -10,8 +10,24 @@ const importRegex =
 
 const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
 
-// eslint-disable-next-line no-unused-vars -- Keep userOptions for future use
-export function findPackageImports(fileContent, userOptions = {}) {
+type FindPackageImportsOptions = Record<string, unknown>;
+
+interface PackageImportResult {
+    import: string;
+    package: string;
+    resolvesTo: string | null;
+    packagePath: string | null;
+}
+
+interface FindPackageImportsFromFileOptions {
+    fileRegexp?: string;
+    [key: string]: unknown;
+}
+
+export function findPackageImports(
+    fileContent: string,
+    _userOptions: FindPackageImportsOptions = {},
+): string[] {
     if (typeof fileContent !== "string") {
         return [];
     }
@@ -24,18 +40,22 @@ export function findPackageImports(fileContent, userOptions = {}) {
     return Array.from(uniqueDependencies);
 }
 
-const findPackageImportsFromFileOptions = {
+const findPackageImportsFromFileOptions: FindPackageImportsFromFileOptions = {
     fileRegexp: "/**/*.{cjs,js,mjs,ts,svelte,vue}",
 };
-export function findPackageImportsFromFile(dirPath, userOptions = {}) {
+
+export function findPackageImportsFromFile(
+    dirPath: string,
+    userOptions: FindPackageImportsFromFileOptions = {},
+): PackageImportResult[] {
     const options = {
         ...findPackageImportsFromFileOptions,
         ...userOptions,
     };
     const files = fs.globSync(`${dirPath}${options.fileRegexp}`, {
-        ignore: "**/node_modules/**",
+        exclude: ["**/node_modules/**"],
     });
-    const importSet = new Set();
+    const importSet = new Set<string>();
 
     for (const file of files) {
         const fileContent = fs.readFileSync(file, "utf-8");
@@ -55,9 +75,10 @@ export function findPackageImportsFromFile(dirPath, userOptions = {}) {
             );
             const resolvedPath = fileURLToPath(resolvedUrl);
 
-            const toPosix = (p) => (p ? p.split(sep).join("/") : p);
+            const toPosix = (p: string | null): string | null =>
+                p ? p.split(sep).join("/") : p;
 
-            let nearestPackageJson = null;
+            let nearestPackageJson: string | null = null;
             let currentDir = dirname(resolvedPath);
             while (true) {
                 const packageJsonPath = join(currentDir, "package.json");
@@ -73,7 +94,7 @@ export function findPackageImportsFromFile(dirPath, userOptions = {}) {
                 currentDir = parentDir;
             }
 
-            const getPackageName = (importPath) => {
+            const getPackageName = (importPath: string): string => {
                 const parts = importPath.split("/");
                 if (importPath.startsWith("@")) {
                     return `${parts[0]}/${parts[1]}`;

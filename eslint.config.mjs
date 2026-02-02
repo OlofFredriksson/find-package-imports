@@ -1,5 +1,6 @@
 import defaultConfig from "@forsakringskassan/eslint-config";
 import cliConfig from "@forsakringskassan/eslint-config-cli";
+import typescriptConfig from "@forsakringskassan/eslint-config-typescript";
 import vitestConfig from "@forsakringskassan/eslint-config-vitest";
 
 export default [
@@ -17,6 +18,7 @@ export default [
     },
 
     ...defaultConfig,
+    typescriptConfig(),
     cliConfig(),
     vitestConfig(),
 ];

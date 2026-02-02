@@ -1,4 +1,3 @@
-/* eslint-disable import/extensions -- Node ESM local imports include .js file extensions */
 import path from "path";
 import { fileURLToPath } from "url";
 import { describe, expect, it } from "vitest";

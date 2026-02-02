@@ -9,7 +9,7 @@ await fs.rm("dist", { recursive: true, force: true });
 
 for (const format of ["esm"]) {
     const result = await build({
-        entryPoints: ["src/index.js"],
+        entryPoints: ["src/index.ts"],
         outdir: `dist/${format}`,
         bundle: true,
         format,
