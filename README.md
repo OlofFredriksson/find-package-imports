@@ -6,15 +6,13 @@ A utility to find all unique package imports from JavaScript files within a dire
 
 ## Functions
 
-### `findPackageImports(fileContent, [options])`
+### `findPackageImports(fileContent)`
 
 Extracts all package imports (`import` and `require`) from a string of file content.
 
 #### Parameters
 
 - `fileContent` (string): The source code to parse.
-- `options` (object, optional): An object with the following properties:
-    - `subExports` (boolean): Whether to include sub-paths in the result (e.g., `'react/jsx-runtime'`). Defaults to `false`.
 
 #### Returns
 
@@ -31,8 +29,7 @@ const fileContent = `
     import { getVariables } from "get-css-variables";
 `
 
-console.log(findPackageImports(fileContent)); // => ["bar", "react", "get-css-variables"]
-console.log(findPackageImports(fileContent, { subExports: true })); // => ["bar", "react/jsx-runtime", "get-css-variables"]
+console.log(findPackageImports(fileContent)); // => ["bar", "react/jsx-runtime", "get-css-variables"]
 ```
 
 ### `findPackageImportsFromFile(dirPath, [options])`
@@ -43,7 +40,6 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 
 - `dirPath` (string): The absolute or relative path to the directory to scan.
 - `options` (object, optional): An object with the following properties:
-    - `subExports` (boolean): Whether to include sub-paths in the result (e.g., `'react/jsx-runtime'`). Defaults to `true`.
     - `fileRegexp` (string, optional): A glob pattern (appended to `dirPath`) that selects which files to scan. Defaults to `"/**/*.{cjs,js,mjs,ts,svelte,vue}"` (recursive search).
 
         Examples:
@@ -56,7 +52,8 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 
 `Array<Object>`: An array of objects, where each object represents a unique imported package and has the following properties:
 
-- `package` (string): The name of the imported package (e.g., `'react'` or `'react/jsx-runtime'`).
+- `import` (string): The name of the imported package (e.g., `'react'` or `'react/jsx-runtime'`).
+- `package` (string): The name of the imported package (e.g., `'react'`).
 - `resolvesTo` (string): The path to the package's entry point, relative to the current working directory.
 - `packagePath` (string): The path to the package directory (typically the directory containing `package.json`), relative to the current working directory.
 
@@ -74,12 +71,14 @@ console.log(imports);
 // Expected output:
 // [
 //   {
+//     import: 'react',
 //     package: 'react',
 //     resolvesTo: 'node_modules/react/index.js',
 //     packagePath: 'node_modules/react'
 //   },
 //   {
-//     package: 'react/jsx-runtime',
+//     import: 'react/jsx-runtime',
+//     package: 'react',
 //     resolvesTo: 'node_modules/react/jsx-runtime/index.js',
 //     packagePath: 'node_modules/react'
 //   }

@@ -1,4 +1,4 @@
-export function extractMatches(fileContent, regex, subExports) {
+export function extractMatches(fileContent, regex) {
     const uniqueDependencies = [];
     let match;
     while ((match = regex.exec(fileContent)) !== null) {
@@ -13,17 +13,7 @@ export function extractMatches(fileContent, regex, subExports) {
             continue;
         }
 
-        if (!subExports) {
-            // Handle scoped packages and sub-paths
-            if (modulePath.startsWith("@")) {
-                const parts = modulePath.split("/");
-                uniqueDependencies.push(`${parts[0]}/${parts[1]}`);
-            } else {
-                uniqueDependencies.push(modulePath.split("/")[0]);
-            }
-        } else {
-            uniqueDependencies.push(modulePath);
-        }
+        uniqueDependencies.push(modulePath);
     }
     return uniqueDependencies;
 }

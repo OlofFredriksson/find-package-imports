@@ -35,16 +35,6 @@ describe("findPackageImports", () => {
     it("esm: finds package specifiers from import forms", () => {
         expect(findPackageImports(esmSrc)).toEqual([
             "bar",
-            "get-css-variables",
-            "side-effect-pkg",
-            "pkg3",
-            "@scope/pkg",
-        ]);
-    });
-
-    it("esm: finds package specifiers from import forms including sub exports", () => {
-        expect(findPackageImports(esmSrc, { subExports: true })).toEqual([
-            "bar",
             "bar/subpath",
             "get-css-variables",
             "side-effect-pkg",
@@ -115,24 +105,40 @@ describe("findPackageImportsFromFile", () => {
         expect(result).toMatchInlineSnapshot(`
             [
               {
+                "import": "package-a",
                 "package": "package-a",
                 "packagePath": "fixtures/node_modules/package-a",
                 "resolvesTo": "fixtures/node_modules/package-a/src/index.js",
               },
               {
+                "import": "package-b",
                 "package": "package-b",
                 "packagePath": "fixtures/node_modules/package-b",
                 "resolvesTo": "fixtures/node_modules/package-b/index.js",
               },
               {
+                "import": "package-c",
                 "package": "package-c",
                 "packagePath": "fixtures/node_modules/package-c",
                 "resolvesTo": "fixtures/node_modules/package-c/index.js",
               },
               {
-                "package": "package-c/subExport",
+                "import": "package-c/subExport",
+                "package": "package-c",
                 "packagePath": "fixtures/node_modules/package-c",
                 "resolvesTo": "fixtures/node_modules/package-c/subExport.js",
+              },
+              {
+                "import": "package-d",
+                "package": "package-d",
+                "packagePath": "fixtures/node_modules/package-d",
+                "resolvesTo": "fixtures/node_modules/package-d/index.js",
+              },
+              {
+                "import": "package-d/non-existing-subpath",
+                "package": "package-d/non-existing-subpath",
+                "packagePath": null,
+                "resolvesTo": null,
               },
             ]
         `);
@@ -148,11 +154,13 @@ describe("findPackageImportsFromFile", () => {
         expect(result).toMatchInlineSnapshot(`
             [
               {
+                "import": "package-a",
                 "package": "package-a",
                 "packagePath": "fixtures/node_modules/package-a",
                 "resolvesTo": "fixtures/node_modules/package-a/src/index.js",
               },
               {
+                "import": "package-b",
                 "package": "package-b",
                 "packagePath": "fixtures/node_modules/package-b",
                 "resolvesTo": "fixtures/node_modules/package-b/index.js",
@@ -167,5 +175,20 @@ describe("findPackageImportsFromFile", () => {
             fileRegexp: "/**/*.js",
         });
         expect(result).toEqual([]);
+    });
+
+    it("scans for package-d and finds it", () => {
+        const fixturesPath = path.join(__dirname, "..", "fixtures/src");
+        const result = findPackageImportsFromFile(fixturesPath, {
+            fileRegexp: "/package-d.mjs",
+        });
+        expect(result).toEqual([
+            {
+                import: "package-d",
+                package: "package-d",
+                packagePath: "fixtures/node_modules/package-d",
+                resolvesTo: "fixtures/node_modules/package-d/index.js",
+            },
+        ]);
     });
 });
