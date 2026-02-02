@@ -34,6 +34,9 @@ jobs:
                 node-version: [22.x, 24.x]
 
         steps:
+            - name: Configure Git on Windows
+              if: runner.os == 'Windows'
+              run: git config --global core.autocrlf false
             - uses: actions/checkout@v6
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v6
@@ -41,7 +44,7 @@ jobs:
                   node-version: ${{ matrix.node-version }}
             - run: npm install
             - run: npm run build
-            - run: npm test --ignore-scripts # Prettier on Windows do not run correctly
+            - run: npm test
               env:
                   CI: true
 
