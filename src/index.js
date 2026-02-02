@@ -35,21 +35,24 @@ export function findPackageImportsFromFile(dirPath, userOptions = {}) {
     const files = fs.globSync(`${dirPath}${options.fileRegexp}`, {
         ignore: "**/node_modules/**",
     });
-    const pkgSet = new Set();
+    const importSet = new Set();
 
     for (const file of files) {
         const fileContent = fs.readFileSync(file, "utf-8");
         const imports = findPackageImports(fileContent, {});
         for (const imp of imports) {
-            pkgSet.add(imp);
+            importSet.add(imp);
         }
     }
 
-    const packages = Array.from(pkgSet).sort();
+    const uniqueImports = Array.from(importSet).sort();
 
-    return packages.map((p) => {
+    return uniqueImports.map((imp) => {
         try {
-            const resolvedUrl = import.meta.resolve(p, pathToFileURL(dirPath));
+            const resolvedUrl = import.meta.resolve(
+                imp,
+                pathToFileURL(dirPath),
+            );
             const resolvedPath = fileURLToPath(resolvedUrl);
 
             const toPosix = (p) => (p ? p.split(sep).join("/") : p);
@@ -79,8 +82,8 @@ export function findPackageImportsFromFile(dirPath, userOptions = {}) {
             };
 
             return {
-                import: p,
-                package: getPackageName(p),
+                import: imp,
+                package: getPackageName(imp),
                 resolvesTo: toPosix(relative(process.cwd(), resolvedPath)),
                 packagePath: nearestPackageJson
                     ? toPosix(
@@ -90,8 +93,8 @@ export function findPackageImportsFromFile(dirPath, userOptions = {}) {
             };
         } catch {
             return {
-                import: p,
-                package: p,
+                import: imp,
+                package: imp,
                 resolvesTo: null,
                 packagePath: null,
             };
