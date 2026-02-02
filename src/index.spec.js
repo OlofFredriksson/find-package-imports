@@ -1,11 +1,7 @@
-/* eslint-disable jest/no-large-snapshots -- snapshot */
-/* eslint-env jest */
 /* eslint-disable import/extensions -- Node ESM local imports include .js file extensions */
 import path from "path";
 import { fileURLToPath } from "url";
-import { findPackageImports, findPackageImportsFromFile } from "./index.js";
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { describe, expect, it } from "vitest";
 
 const esmSrc = `
     import foo from "bar";
@@ -31,8 +27,13 @@ const cjsSrc = `
     /* require('ignored') */
 `;
 
+import { findPackageImports, findPackageImportsFromFile } from "./index.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 describe("findPackageImports", () => {
     it("esm: finds package specifiers from import forms", () => {
+        expect.assertions(1);
         expect(findPackageImports(esmSrc)).toEqual([
             "bar",
             "bar/subpath",
@@ -45,14 +46,17 @@ describe("findPackageImports", () => {
     });
 
     it("cjs: finds package specifiers from require forms", () => {
+        expect.assertions(1);
         expect(findPackageImports(cjsSrc)).toEqual(["pkg2", "bar"]);
     });
 
     it("returns empty array for non-string", () => {
+        expect.assertions(1);
         expect(findPackageImports(null)).toEqual([]);
     });
 
     it("vue: handles Single File Component with <template> and <script> imports", () => {
+        expect.assertions(1);
         const src = `
                 <template>
                     <div>
@@ -76,6 +80,7 @@ describe("findPackageImports", () => {
     });
 
     it("svelte: handles Svelte component <script> imports", () => {
+        expect.assertions(1);
         const src = `
             <script>
                 import { onMount } from "svelte";
@@ -99,6 +104,7 @@ describe("findPackageImports", () => {
 
 describe("findPackageImportsFromFile", () => {
     it("scans fixtures directory and finds imports", () => {
+        expect.assertions(1);
         const fixturesPath = path.join(__dirname, "..", "fixtures/src");
         const result = findPackageImportsFromFile(fixturesPath);
 
@@ -145,6 +151,7 @@ describe("findPackageImportsFromFile", () => {
     });
 
     it("respects custom fileRegexp (single file)", () => {
+        expect.assertions(1);
         const fixturesPath = path.join(__dirname, "..", "fixtures/src");
         const result = findPackageImportsFromFile(fixturesPath, {
             fileRegexp: "/index.mjs",
@@ -170,6 +177,7 @@ describe("findPackageImportsFromFile", () => {
     });
 
     it("returns empty when custom fileRegexp doesn't match files", () => {
+        expect.assertions(1);
         const fixturesPath = path.join(__dirname, "..", "fixtures/src");
         const result = findPackageImportsFromFile(fixturesPath, {
             fileRegexp: "/**/*.js",
@@ -178,6 +186,7 @@ describe("findPackageImportsFromFile", () => {
     });
 
     it("scans for package-d and finds it", () => {
+        expect.assertions(1);
         const fixturesPath = path.join(__dirname, "..", "fixtures/src");
         const result = findPackageImportsFromFile(fixturesPath, {
             fileRegexp: "/package-d.mjs",

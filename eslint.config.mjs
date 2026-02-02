@@ -1,6 +1,6 @@
 import defaultConfig from "@forsakringskassan/eslint-config";
 import cliConfig from "@forsakringskassan/eslint-config-cli";
-import jestConfig from "@forsakringskassan/eslint-config-jest";
+import vitestConfig from "@forsakringskassan/eslint-config-vitest";
 
 export default [
     {
@@ -18,5 +18,5 @@ export default [
 
     ...defaultConfig,
     cliConfig(),
-    jestConfig(),
+    vitestConfig(),
 ];
