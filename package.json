@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "prebuild": "tsc",
-    "build": "node build.mjs",
+    "build": "node build.mts",
     "postbuild": "dts-bundle-generator src/index.ts -o dist/index.d.ts",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",

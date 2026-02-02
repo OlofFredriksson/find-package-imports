@@ -5,7 +5,7 @@
         "module": "ES2022",
         "lib": ["ES2022"],
         "noEmit": true,
-        "rootDir": "./src",
+        "rootDir": ".",
         "strict": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
@@ -15,6 +15,6 @@
         "isolatedModules": true,
         "verbatimModuleSyntax": true
     },
-    "include": ["src"],
+    "include": ["src", "build.mts"],
     "exclude": ["node_modules", "dist"]
 }
