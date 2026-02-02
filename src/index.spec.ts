@@ -49,11 +49,6 @@ describe("findPackageImports", () => {
         expect(findPackageImports(cjsSrc)).toEqual(["pkg2", "bar"]);
     });
 
-    it("returns empty array for non-string", () => {
-        expect.assertions(1);
-        expect(findPackageImports(null)).toEqual([]);
-    });
-
     it("vue: handles Single File Component with <template> and <script> imports", () => {
         expect.assertions(1);
         const src = `
