@@ -47,8 +47,8 @@
   "prettier": "@forsakringskassan/prettier-config",
   "devDependencies": {
     "@forsakringskassan/commitlint-config": "3.3.3",
-    "@forsakringskassan/eslint-config": "13.3.0",
-    "@forsakringskassan/eslint-config-cli": "13.3.0",
+    "@forsakringskassan/eslint-config": "13.3.1",
+    "@forsakringskassan/eslint-config-cli": "13.3.1",
     "@forsakringskassan/eslint-config-typescript": "13.3.0",
     "@forsakringskassan/eslint-config-vitest": "13.3.0",
     "@forsakringskassan/prettier-config": "3.3.4",
