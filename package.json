@@ -50,7 +50,7 @@
     "@forsakringskassan/eslint-config": "13.3.2",
     "@forsakringskassan/eslint-config-cli": "13.3.2",
     "@forsakringskassan/eslint-config-typescript": "13.3.0",
-    "@forsakringskassan/eslint-config-vitest": "13.3.0",
+    "@forsakringskassan/eslint-config-vitest": "13.3.3",
     "@forsakringskassan/prettier-config": "3.3.4",
     "@tsconfig/node22": "22.0.5",
     "@tsconfig/recommended": "1.0.13",
