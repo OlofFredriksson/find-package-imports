@@ -98,6 +98,30 @@ describe("findPackageImports", () => {
             "lazy-svelte",
         ]);
     });
+
+    it("filters imports with includeImportRegexp", () => {
+        expect.assertions(1);
+        const result = findPackageImports(esmSrc, {
+            includeImportRegexp: /^(bar|@scope\/pkg)$/,
+        });
+
+        expect(result).toEqual(["bar", "@scope/pkg"]);
+    });
+
+    it("filters imports with excludeImportRegexp", () => {
+        expect.assertions(1);
+        const result = findPackageImports(esmSrc, {
+            excludeImportRegexp: /^bar/,
+        });
+
+        expect(result).toEqual([
+            "get-css-variables",
+            "side-effect-pkg",
+            "pkg3",
+            "@scope/pkg",
+            "@scope/pkg/subpath",
+        ]);
+    });
 });
 
 describe("findPackageImportsFromFile", () => {
@@ -197,6 +221,40 @@ describe("findPackageImportsFromFile", () => {
                 resolvesTo: "fixtures/node_modules/package-d/index.js",
             },
         ]);
+    });
+
+    it("filters imports with includeImportRegexp", () => {
+        expect.assertions(1);
+        const fixturesPath = path.join(__dirname, "..", "fixtures/src");
+        const result = findPackageImportsFromFile(fixturesPath, {
+            includeImportRegexp: /^package-c/,
+        });
+
+        expect(result).toEqual([
+            {
+                import: "package-c",
+                package: "package-c",
+                packagePath: "fixtures/node_modules/package-c",
+                resolvesTo: "fixtures/node_modules/package-c/index.js",
+            },
+            {
+                import: "package-c/subExport",
+                package: "package-c",
+                packagePath: "fixtures/node_modules/package-c",
+                resolvesTo: "fixtures/node_modules/package-c/subExport.js",
+            },
+        ]);
+    });
+
+    it("filters imports with excludeImportRegexp", () => {
+        expect.assertions(1);
+        const fixturesPath = path.join(__dirname, "..", "fixtures/src");
+        const result = findPackageImportsFromFile(fixturesPath, {
+            fileRegexp: "/package-d.mjs",
+            excludeImportRegexp: /^package-d/,
+        });
+
+        expect(result).toEqual([]);
     });
 });
 

@@ -6,13 +6,16 @@ A utility to find all unique package imports from JavaScript files within a dire
 
 ## Functions
 
-### `findPackageImports(fileContent)`
+### `findPackageImports(fileContent, [options])`
 
 Extracts all package imports (`import` and `require`) from a string of file content.
 
 #### Parameters
 
 - `fileContent` (string): The source code to parse.
+- `options` (object, optional): An object with the following properties:
+    - `includeImportRegexp` (RegExp, optional): Only include imports that match this regular expression.
+    - `excludeImportRegexp` (RegExp, optional): Exclude imports that match this regular expression.
 
 #### Returns
 
@@ -30,6 +33,13 @@ const fileContent = `
 `
 
 console.log(findPackageImports(fileContent)); // => ["bar", "react/jsx-runtime", "get-css-variables"]
+
+console.log(
+    findPackageImports(fileContent, {
+        includeImportRegexp: /^react/,
+        excludeImportRegexp: /jsx-runtime/,
+    }),
+); // => []
 ```
 
 ### `findPackageImportsFromFile(dirPath, [options])`
@@ -41,6 +51,9 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 - `dirPath` (string): The absolute or relative path to the directory to scan.
 - `options` (object, optional): An object with the following properties:
     - `fileRegexp` (string, optional): A glob pattern (appended to `dirPath`) that selects which files to scan. Defaults to `"/**/*.{cjs,js,mjs,ts,svelte,vue}"` (recursive search).
+
+    - `includeImportRegexp` (RegExp, optional): Only include imports that match this regular expression.
+    - `excludeImportRegexp` (RegExp, optional): Exclude imports that match this regular expression.
 
         Examples:
         - `"/**/*.mjs"` — scan only `.mjs` files recursively
@@ -83,6 +96,13 @@ console.log(imports);
 //     packagePath: 'node_modules/react'
 //   }
 // ]
+
+const filteredImports = findPackageImportsFromFile(projectDir, {
+    includeImportRegexp: /^react/, // keep only react imports
+    excludeImportRegexp: /jsx-runtime/, // drop react/jsx-runtime
+});
+
+console.log(filteredImports);
 ```
 
 ### `getUniquePackages(imports)`

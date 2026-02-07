@@ -11,7 +11,11 @@ const importRegex =
 
 const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
 
-type FindPackageImportsOptions = Record<string, unknown>;
+interface FindPackageImportsOptions {
+    includeImportRegexp?: RegExp;
+    excludeImportRegexp?: RegExp;
+    [key: string]: unknown;
+}
 
 interface PackageImportResult {
     import: string;
@@ -27,12 +31,14 @@ interface UniquePackage {
 
 interface FindPackageImportsFromFileOptions {
     fileRegexp?: string;
+    includeImportRegexp?: RegExp;
+    excludeImportRegexp?: RegExp;
     [key: string]: unknown;
 }
 
 export function findPackageImports(
     fileContent: string,
-    _userOptions: FindPackageImportsOptions = {},
+    userOptions: FindPackageImportsOptions = {},
 ): string[] {
     if (typeof fileContent !== "string") {
         return [];
@@ -42,8 +48,20 @@ export function findPackageImports(
         ...extractMatches(cleanContent, importRegex),
         ...extractMatches(cleanContent, requireRegex),
     ]);
+    let dependencies = Array.from(uniqueDependencies);
+    if (userOptions.includeImportRegexp) {
+        dependencies = dependencies.filter((dep) =>
+            userOptions.includeImportRegexp?.test(dep),
+        );
+    }
 
-    return Array.from(uniqueDependencies);
+    if (userOptions.excludeImportRegexp) {
+        dependencies = dependencies.filter(
+            (dep) => !userOptions.excludeImportRegexp?.test(dep),
+        );
+    }
+
+    return dependencies;
 }
 
 const findPackageImportsFromFileOptions: FindPackageImportsFromFileOptions = {
@@ -65,7 +83,10 @@ export function findPackageImportsFromFile(
 
     for (const file of files) {
         const fileContent = fs.readFileSync(file, "utf-8");
-        const imports = findPackageImports(fileContent, {});
+        const imports = findPackageImports(fileContent, {
+            includeImportRegexp: options.includeImportRegexp,
+            excludeImportRegexp: options.excludeImportRegexp,
+        });
         for (const imp of imports) {
             importSet.add(imp);
         }
