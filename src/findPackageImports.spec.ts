@@ -114,4 +114,21 @@ describe("findPackageImports", () => {
             "@scope/pkg/subpath",
         ]);
     });
+
+    it("filters globbed imports ending with -api", () => {
+        expect.assertions(1);
+        const src = `
+            import alpha from "alpha-api";
+            import beta from "beta";
+            import gamma from "gamma-api";
+            const delta = import("delta-api");
+            const epsilon = import("epsilon");
+        `;
+
+        const result = findPackageImports(src, {
+            includeImportRegexp: /-api$/,
+        });
+
+        expect(result).toEqual(["alpha-api", "gamma-api", "delta-api"]);
+    });
 });
