@@ -1,3 +1,11 @@
+export const commentRegex = /(\/\*[\s\S]*?\*\/)|(\/\/.*)/g;
+
+export const importRegex =
+    // eslint-disable-next-line sonarjs/slow-regex -- inactivate rule
+    /(?:import\s+(?:.*?from\s+)?['"]|import\(['"])([^'"]+)['"]/g;
+
+export const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
+
 export function extractMatches(fileContent: string, regex: RegExp): string[] {
     const uniqueDependencies: string[] = [];
     let match: RegExpExecArray | null;

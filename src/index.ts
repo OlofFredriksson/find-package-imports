@@ -1,15 +1,12 @@
 import fs from "fs";
 import { dirname, join, relative, sep } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
-import { extractMatches } from "./extractMatches.js";
-
-const commentRegex = /(\/\*[\s\S]*?\*\/)|(\/\/.*)/g;
-
-const importRegex =
-    // eslint-disable-next-line sonarjs/slow-regex -- inactivate rule
-    /(?:import\s+(?:.*?from\s+)?['"]|import\(['"])([^'"]+)['"]/g;
-
-const requireRegex = /require\(['"]([^'"]+)['"]\)/g;
+import {
+    commentRegex,
+    extractMatches,
+    importRegex,
+    requireRegex,
+} from "./utils/extractMatches";
 
 interface FindPackageImportsOptions {
     includeImportRegexp?: RegExp;
