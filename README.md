@@ -1,6 +1,6 @@
 # Find package imports
 
-A utility to find all unique package imports from JavaScript files within a directory.
+A dependency free utility to find all unique package imports from JavaScript files within a directory.
 
 `npm i find-package-imports`
 
@@ -23,14 +23,14 @@ Extracts all package imports (`import` and `require`) from a string of file cont
 
 #### Example
 
-```Javascript
+```javascript
 import { findPackageImports } from "find-package-imports";
 
 const fileContent = `
     import foo from "bar";
     import { jsx } from "react/jsx-runtime";
     import { getVariables } from "get-css-variables";
-`
+`;
 
 console.log(findPackageImports(fileContent)); // => ["bar", "react/jsx-runtime", "get-css-variables"]
 
@@ -50,7 +50,7 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 
 - `dirPath` (string): The absolute or relative path to the directory to scan.
 - `options` (object, optional): An object with the following properties:
-    - `fileRegexp` (string, optional): A glob pattern (appended to `dirPath`) that selects which files to scan. Defaults to `"/**/*.{cjs,js,mjs,ts,svelte,vue}"` (recursive search).
+    - `fileRegexp` (string, optional): A glob pattern (appended to `dirPath`) that selects which files to scan. Defaults to `"/**/*.{cjs,js,mjs,ts,svelte,vue}"` (recursive search). Files under `node_modules` are always excluded.
 
     - `includeImportRegexp` (RegExp, optional): Only include imports that match this regular expression.
     - `excludeImportRegexp` (RegExp, optional): Exclude imports that match this regular expression.
@@ -63,7 +63,7 @@ Scans a directory for various script files (`.js`, `.mjs`, `.ts`, etc.), extract
 
 #### Returns
 
-`Array<Object>`: An array of objects, where each object represents a unique imported package and has the following properties:
+`Array<PackageImportResult>`: An array of objects, where each object represents a unique imported package and has the following properties:
 
 - `import` (string): The name of the imported package (e.g., `'react'` or `'react/jsx-runtime'`).
 - `package` (string): The name of the imported package (e.g., `'react'`).
@@ -115,7 +115,7 @@ Extracts a unique list of packages from the result of `findPackageImportsFromFil
 
 #### Returns
 
-`Array<Object>`: An array of objects, where each object represents a unique package and has the following properties:
+`Array<UniquePackage>`: An array of objects, where each object represents a unique package and has the following properties:
 
 - `package` (string): The name of the package (e.g., `'react'`).
 - `packagePath` (string | null): The path to the package directory (typically the directory containing `package.json`), relative to the current working directory. Will be `null` if the package could not be resolved.
