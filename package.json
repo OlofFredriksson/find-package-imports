@@ -1,6 +1,6 @@
 {
   "name": "find-package-imports",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A utility to find package imports in javascript / Typescript files.",
   "keywords": [
     "find",
