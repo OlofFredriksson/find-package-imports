@@ -1,6 +1,6 @@
 # Find package imports
 
-A dependency free utility to find all unique package imports from JavaScript files within a directory.
+A dependency free utility to find all unique package imports from JavaScript and TypeScript files within a directory.
 
 `npm i find-package-imports`
 
