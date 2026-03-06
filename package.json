@@ -50,9 +50,9 @@
   },
   "devDependencies": {
     "@forsakringskassan/commitlint-config": "3.3.4",
-    "@forsakringskassan/eslint-config": "13.4.1",
-    "@forsakringskassan/eslint-config-cli": "13.4.0",
-    "@forsakringskassan/eslint-config-typescript": "13.4.1",
+    "@forsakringskassan/eslint-config": "13.4.2",
+    "@forsakringskassan/eslint-config-cli": "13.4.2",
+    "@forsakringskassan/eslint-config-typescript": "13.4.2",
     "@forsakringskassan/eslint-config-vitest": "13.4.0",
     "@forsakringskassan/prettier-config": "3.3.5",
     "@tsconfig/node22": "22.0.5",
