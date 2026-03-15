@@ -1,6 +1,6 @@
-import fs from "fs";
-import { dirname, join, relative, sep } from "path";
-import { fileURLToPath, pathToFileURL } from "url";
+import fs from "node:fs";
+import { dirname, join, relative, sep } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { findPackageImports } from "./findPackageImports.js";
 
@@ -36,7 +36,7 @@ export function findPackageImportsFromFile(
     const importSet = new Set<string>();
 
     for (const file of files) {
-        const fileContent = fs.readFileSync(file, "utf-8");
+        const fileContent = fs.readFileSync(file, "utf8");
         const imports = findPackageImports(fileContent, {
             includeImportRegexp: options.includeImportRegexp,
             excludeImportRegexp: options.excludeImportRegexp,
@@ -46,7 +46,7 @@ export function findPackageImportsFromFile(
         }
     }
 
-    const uniqueImports = Array.from(importSet).sort();
+    const uniqueImports = Array.from(importSet).toSorted();
 
     return uniqueImports.map((imp) => {
         try {
