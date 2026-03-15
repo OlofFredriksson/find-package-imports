@@ -21,4 +21,11 @@ export default [
     typescriptConfig(),
     cliConfig(),
     vitestConfig(),
+
+    {
+        name: "Technical debt",
+        rules: {
+            "unicorn/filename-case": "off",
+        },
+    },
 ];

@@ -1,10 +1,9 @@
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { findPackageImportsFromFile } from "./findPackageImportsFromFile.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 
 describe("findPackageImportsFromFile", () => {
     it("scans fixtures directory and finds imports", () => {
