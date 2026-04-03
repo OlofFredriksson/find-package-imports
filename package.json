@@ -49,7 +49,7 @@
     "extends": "@forsakringskassan/semantic-release-config"
   },
   "devDependencies": {
-    "@forsakringskassan/commitlint-config": "3.3.8",
+    "@forsakringskassan/commitlint-config": "3.3.9",
     "@forsakringskassan/eslint-config": "14.1.0",
     "@forsakringskassan/eslint-config-cli": "14.1.0",
     "@forsakringskassan/eslint-config-typescript": "14.1.0",
