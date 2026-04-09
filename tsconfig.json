@@ -10,10 +10,11 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowImportingTsExtensions": true,
         "isolatedModules": true,
-        "verbatimModuleSyntax": true
+        "verbatimModuleSyntax": true,
+        "types": ["node"]
     },
     "include": ["src", "build.mts"],
     "exclude": ["node_modules", "dist"]
