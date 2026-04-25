@@ -1,8 +1,10 @@
 import fs from "node:fs";
-import { dirname, join, relative, sep } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { findPackageImports } from "./findPackageImports.js";
+import { getPackageName } from "./utils/getPackageName.js";
+import { toPosix } from "./utils/toPosix.js";
 
 const findPackageImportsFromFileOptions: FindPackageImportsFromFileOptions = {
     fileRegexp: "/**/*.{cjs,js,mjs,ts,svelte,vue}",
@@ -56,9 +58,6 @@ export function findPackageImportsFromFile(
             );
             const resolvedPath = fileURLToPath(resolvedUrl);
 
-            const toPosix = (p: string | null): string | null =>
-                p ? p.split(sep).join("/") : p;
-
             let nearestPackageJson: string | null = null;
             let currentDir = dirname(resolvedPath);
             while (true) {
@@ -74,14 +73,6 @@ export function findPackageImportsFromFile(
                 }
                 currentDir = parentDir;
             }
-
-            const getPackageName = (importPath: string): string => {
-                const parts = importPath.split("/");
-                if (importPath.startsWith("@")) {
-                    return `${parts[0]}/${parts[1]}`;
-                }
-                return parts[0];
-            };
 
             return {
                 import: imp,
