@@ -4,6 +4,7 @@ import {
     importRegex,
     requireRegex,
 } from "./utils/extractMatches.js";
+import { filterDependencies } from "./utils/filterDependencies.js";
 
 export interface FindPackageImportsOptions {
     includeImportRegexp?: RegExp;
@@ -23,18 +24,10 @@ export function findPackageImports(
         ...extractMatches(cleanContent, importRegex),
         ...extractMatches(cleanContent, requireRegex),
     ]);
-    let dependencies = Array.from(uniqueDependencies);
-    if (userOptions.includeImportRegexp) {
-        dependencies = dependencies.filter((dep) =>
-            userOptions.includeImportRegexp?.test(dep),
-        );
-    }
+    const dependencies = Array.from(uniqueDependencies);
 
-    if (userOptions.excludeImportRegexp) {
-        dependencies = dependencies.filter(
-            (dep) => !userOptions.excludeImportRegexp?.test(dep),
-        );
-    }
-
-    return dependencies;
+    return filterDependencies(dependencies, {
+        includeImportRegexp: userOptions.includeImportRegexp,
+        excludeImportRegexp: userOptions.excludeImportRegexp,
+    });
 }
