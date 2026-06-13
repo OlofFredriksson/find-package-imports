@@ -53,7 +53,7 @@
     "@forsakringskassan/eslint-config": "15.0.10",
     "@forsakringskassan/eslint-config-cli": "15.0.0",
     "@forsakringskassan/eslint-config-typescript": "15.0.13",
-    "@forsakringskassan/eslint-config-vitest": "15.0.9",
+    "@forsakringskassan/eslint-config-vitest": "15.0.15",
     "@forsakringskassan/prettier-config": "3.7.1",
     "@tsconfig/node22": "22.0.5",
     "@tsconfig/recommended": "1.0.13",
