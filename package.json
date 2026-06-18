@@ -63,7 +63,7 @@
     "npm-pkg-lint": "5.1.7",
     "npm-run-all2": "9.0.2",
     "typescript": "6.0.3",
-    "vitest": "4.1.8"
+    "vitest": "4.1.9"
   },
   "engines": {
     "node": ">= 22.0.0",
