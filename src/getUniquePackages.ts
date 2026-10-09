@@ -16,6 +16,7 @@ export function getUniquePackages(
         }
     }
 
+    // eslint-disable-next-line unicorn/prefer-array-from-map -- TODO: Revisit this conversion when refactoring package collection.
     return Array.from(packageMap).map(([packageName, packagePath]) => ({
         package: packageName,
         packagePath,

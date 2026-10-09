@@ -1,7 +1,7 @@
-export const commentRegex = /(\/\*[\S\s]*?\*\/)|(\/\/.*)/g;
+export const commentRegex = /(\/\*[\s\S]*?\*\/)|(\/\/.*)/g;
 
 export const importRegex =
-    // eslint-disable-next-line sonarjs/slow-regex -- inactivate rule
+    // eslint-disable-next-line regexp/no-super-linear-backtracking -- TODO: Replace with a parser or bounded pattern to avoid super-linear backtracking.
     /(?:import\s+(?:.*?from\s+)?["']|import\(["'])([^"']+)["']/g;
 
 export const requireRegex = /require\(["']([^"']+)["']\)/g;
