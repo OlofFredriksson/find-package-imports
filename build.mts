@@ -22,5 +22,5 @@ const result = await build({
         ".js": extension[format],
     },
 });
-// eslint-disable-next-line no-console -- intended for CLI output
+
 console.log(await analyzeMetafile(result.metafile));

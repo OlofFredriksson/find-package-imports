@@ -46,6 +46,7 @@ export function findPackageImportsFromFile(
         }
     }
 
+    // eslint-disable-next-line unicorn/require-array-sort-compare -- TODO: Specify the intended import ordering with an explicit comparator.
     const uniqueImports = Array.from(importSet).toSorted();
 
     return uniqueImports.map((imp) => {

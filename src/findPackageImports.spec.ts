@@ -51,7 +51,7 @@ describe("findPackageImports", () => {
                 <template>
                     <div>
                         <MyComp />
-                        <img src="http://example.com/logo.png" />
+                        <img src="https://example.com/logo.png" />
                     </div>
                 </template>
                 <script>
