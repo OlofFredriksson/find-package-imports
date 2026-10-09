@@ -59,4 +59,4 @@ jobs:
                   node-version: "24.x"
             - run: npm install
             - name: npm-pkg-lint
-              uses: ext/npm-pkg-lint@master
+              uses: ext/npm-pkg-lint@main
