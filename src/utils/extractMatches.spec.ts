@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { extractMatches, importRegex, requireRegex } from "./extractMatches.js";
+import { extractMatches, importRegex, requireRegex } from "./extractMatches";
 
 describe("extractMatches", () => {
     it("extracts only package specifiers from imports", () => {

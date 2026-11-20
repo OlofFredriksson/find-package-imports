@@ -2,7 +2,7 @@ import fs from "node:fs";
 import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { findPackageImports } from "./findPackageImports.js";
+import { findPackageImports } from "./findPackageImports";
 
 const findPackageImportsFromFileOptions: FindPackageImportsFromFileOptions = {
     fileRegexp: "/**/*.{cjs,js,mjs,ts,svelte,vue}",

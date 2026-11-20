@@ -1,7 +1,7 @@
 export {
     type FindPackageImportsOptions,
     findPackageImports,
-} from "./findPackageImports.js";
+} from "./findPackageImports";
 export {
     type FindPackageImportsFromFileOptions,
     type PackageImportResult,
