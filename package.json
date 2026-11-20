@@ -42,6 +42,10 @@
     "test": "vitest run",
     "postversion": "git push --follow-tags"
   },
+  "allowScripts": {
+    "esbuild": true,
+    "unrs-resolver": true
+  },
   "commitlint": {
     "extends": "@forsakringskassan/commitlint-config/no-jira"
   },
@@ -55,7 +59,7 @@
     "@forsakringskassan/eslint-config-cli": "15.11.11",
     "@forsakringskassan/eslint-config-typescript": "15.11.14",
     "@forsakringskassan/eslint-config-vitest": "15.11.11",
-    "@forsakringskassan/prettier-config": "3.7.12",
+    "@forsakringskassan/prettier-config": "3.7.15",
     "@tsconfig/node24": "24.0.5",
     "@tsconfig/recommended": "1.0.13",
     "@types/node": "24.19.2",
@@ -69,9 +73,5 @@
   "engines": {
     "node": ">= 24.0.0",
     "npm": ">= 12.0.0"
-  },
-  "allowScripts": {
-    "esbuild": true,
-    "unrs-resolver": true
   }
 }
