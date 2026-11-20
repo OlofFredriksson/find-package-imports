@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getUniquePackages } from "./getUniquePackages.js";
+import { getUniquePackages } from "./getUniquePackages";
 
 describe("getUniquePackages", () => {
     it("returns unique packages with package and packagePath from import results", () => {

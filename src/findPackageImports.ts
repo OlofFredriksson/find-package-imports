@@ -3,7 +3,7 @@ import {
     extractMatches,
     importRegex,
     requireRegex,
-} from "./utils/extractMatches.js";
+} from "./utils/extractMatches";
 
 export interface FindPackageImportsOptions {
     includeImportRegexp?: RegExp;

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { findPackageImports } from "./findPackageImports.js";
+import { findPackageImports } from "./findPackageImports";
 
 const esmSrc = `
     import foo from "bar";
